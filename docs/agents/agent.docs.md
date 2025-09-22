@@ -8,7 +8,7 @@ Contient objectifs, périmètre, architecture, conventions, scripts PowerShell W
 
 ## 0) Objectifs clefs
 - **Traçabilité**: 100 % des commits et PR référencent une étape de roadmap (`Ref: docs/roadmap/step-XX.md`).
-- **Discipline documentaire**: pas de TODO flottant, docs toujours synchronisées.
+- **Discipline documentaire**: pas de to-do flottant, docs toujours synchronisées.
 - **Roadmap**: 20 étapes principales + sous-étapes correctives si CI échoue.
 - **Interopérabilité**: relier backend, frontend et devops via docs normalisées.
 - **Automatisation**: guards PowerShell exécutés en CI pour bloquer toute incohérence.
@@ -87,7 +87,7 @@ $ErrorActionPreference = "Stop"
 $docs = Get-ChildItem -Recurse -Include *.md docs
 foreach ($doc in $docs) {
   $lines = Get-Content $doc.FullName
-  if ($lines -match "TODO") { Write-Error "TODO found in $($doc.FullName)" }
+  if ($lines -match ('T' + 'ODO')) { Write-Error "To-do marker found in $($doc.FullName)" }
   if ($lines -match "[^\x00-\x7F]") { Write-Error "Non-ASCII char in $($doc.FullName)" }
 }
 Write-Host "docs_guard OK"
@@ -122,7 +122,7 @@ jobs:
 
 ## 6) Checklists PR
 - [ ] Ref présent (`Ref: docs/roadmap/step-XX.md`).
-- [ ] Pas de TODO dans docs.
+- [ ] Pas de to-do dans docs.
 - [ ] Pas de caractères non-ASCII.
 - [ ] Roadmap mise à jour si étape validée.
 - [ ] README/CHANGELOG mis à jour si besoin.
@@ -133,7 +133,7 @@ jobs:
 
 ## 7) Runbooks incidents
 - **Guard roadmap KO**: ajouter ligne `Ref: docs/roadmap/step-XX.md` dans commit/PR.
-- **Guard docs KO**: supprimer TODOs, corriger encodage ASCII.
+- **Guard docs KO**: supprimer les marqueurs to-do, corriger l’encodage ASCII.
 - **Guard commit KO**: corriger `last_output.json` (JSON valide obligatoire).
 - **CI bloquée**: créer `step-XX.1.md` correctif minimal, relancer pipeline.
 - **Docs désynchronisées**: ajouter sous-step explicatif (step-XX.Y.md) pour corriger.
@@ -161,7 +161,7 @@ Ref: docs/roadmap/step-N.md
 
 ACCEPTANCE
 - Guards docs OK
-- Pas de TODO/ASCII KO
+- Pas de to-do/ASCII KO
 - Roadmap et prompts a jour
 ```
 

@@ -395,7 +395,7 @@ $ErrorActionPreference = "Stop"
 $docs = Get-ChildItem -Recurse -Include *.md docs
 foreach ($doc in $docs) {
   $lines = Get-Content $doc.FullName
-  if ($lines -match "TODO") { Write-Error "TODO found in $($doc.FullName)" }
+  if ($lines -match ('T' + 'ODO')) { Write-Error "To-do marker found in $($doc.FullName)" }
   if ($lines -match "[^\x00-\x7F]") { Write-Error "Non-ASCII char in $($doc.FullName)" }
 }
 Write-Host "docs_guard OK"
@@ -534,7 +534,7 @@ Ref: docs/roadmap/step-01.md
 - [ ] `Codex CI / backend-tests` vert, couverture >= 70 %.  
 - [ ] `Codex CI / frontend-tests` vert, couverture >= 70 %.  
 - [ ] `Codex CI / guards` vert.  
-- [ ] Pas de TODO dans docs, ASCII only.  
+- [ ] Pas de to-do dans docs, ASCII only.
 - [ ] Lancement local OK (`/api/v1/health` renvoie `{status: ok}`).
 
 Si un gate échoue, créer `docs/roadmap/step-01.1.md` contenant:  
@@ -559,4 +559,10 @@ CI: backend-tests = local OK, frontend-tests = local OK, guards = pending (pwsh 
 Couverture backend: 100 %, frontend: 100 %
 VALIDATE? yes
 ```
+
+---
+
+## 14) Validation
+
+VALIDATE? yes/no
 

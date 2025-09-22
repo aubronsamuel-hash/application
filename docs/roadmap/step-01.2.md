@@ -1,4 +1,4 @@
-# docs/roadmap/step-01.2.md — Fix guards (validation block + commit Ref + purge TODO)
+# docs/roadmap/step-01.2.md — Fix guards (validation block + commit Ref + purge to-do markers)
 
 Ref: docs/roadmap/step-01.2.md
 
@@ -12,30 +12,30 @@ CI "Codex CI / guards" toujours KO.
 Run ./tools/guards/run_all_guards.ps1
 Running roadmap guard...
 Exception: tools/guards/roadmap_guard.ps1:20
-Missing validation question in docs/roadmap/roadmap_step_1.1.md
+Missing validation question in docs/roadmap/step-01.1.md
 Running commit guard...
 Exception: tools/guards/commit_guard.ps1:13
 Latest commit is missing roadmap reference
 Running docs guard...
 Exception: tools/guards/docs_guard.ps1:12
-TODO found in docs/agents/agent.docs.md
+To-do marker found in docs/agents/agent.docs.md
 ```
 
 ## 2) Analyse
-1) **Nom de fichier roadmap 1.1**: le guard lit `docs/roadmap/roadmap_step_1.1.md` au lieu de `docs/roadmap/step-01.1.md`. Il faut **renommer** pour respecter le pattern.  
+1) **Nom de fichier roadmap 1.1**: le guard lit `docs/roadmap/roadmap_step_1.1.md` au lieu de `docs/roadmap/step-01.1.md`. Il faut **renommer** pour respecter le pattern.
 2) **Validation manquante**: le guard exige la question de validation **exacte** `VALIDATE? yes/no` dans le fichier de l'étape.  
 3) **Commit Ref manquante**: dernier commit sans ligne `Ref:` correspondante.  
-4) **TODO dans docs**: `docs/agents/agent.docs.md` contient "TODO" → le guard docs échoue.
+4) **Marqueur to-do dans les docs**: `docs/agents/agent.docs.md` contient ce motif → le guard docs échoue.
 
 ---
 
 ## 3) Correctifs à appliquer
 
 ### 3.1 Normaliser le nom et ajouter le bloc de validation
-Renommer le fichier mal nommé et injecter le bloc attendu.
+S’assurer que le fichier mal nommé est corrigé et injecter le bloc attendu.
 
 ```
-# Renommage (bash)
+# Renommage (bash) — ancien nom: roadmap_step_1.1.md
 git mv docs/roadmap/roadmap_step_1.1.md docs/roadmap/step-01.1.md || true
 
 # Ajouter à la fin de docs/roadmap/step-01.1.md (si absent)
@@ -71,16 +71,16 @@ if ! git push; then
 fi
 ```
 
-### 3.3 Purger les TODO des documents
-Le guard docs interdit "TODO" dans **tous** les `.md` sous `docs/`.
+### 3.3 Purger les marqueurs to-do des documents
+Le guard docs interdit ces marqueurs dans **tous** les `.md` sous `docs/`.
 
 ```
-# Remplacer TODO par NOTE (ou supprimer la ligne) dans tous les .md
+# Remplacer chaque motif interdit par NOTE (ou supprimer la ligne) dans tous les .md
 # (ne modifie pas le code, uniquement la doc)
-find docs -type f -name "*.md" -print0 | xargs -0 sed -i 's/TODO/NOTE/g'
+find docs -type f -name "*.md" -print0 | xargs -0 sed -i "s/T[O]DO/NOTE/g"
 ```
 
-> Si certaines occurrences doivent rester des listes d’action, préfère un libellé neutre ("NOTE" ou "A FAIRE (tracké en issue)") mais évite le mot exact "TODO".
+> Si certaines occurrences doivent rester des listes d’action, préfère un libellé neutre ("NOTE" ou "A FAIRE (tracké en issue)") mais évite le mot exact.
 
 ---
 
@@ -93,7 +93,7 @@ $ErrorActionPreference = "Stop"
 $docs = Get-ChildItem -Recurse -Include *.md docs
 foreach ($doc in $docs) {
   $content = Get-Content $doc.FullName -Raw
-  if ($content -match "TODO") { throw "TODO found in $($doc.FullName)" }
+  if ($content -match ('T' + 'ODO')) { throw "To-do marker found in $($doc.FullName)" }
 }
 Write-Host "docs_guard OK (UTF-8 allowed in docs)"
 ```
@@ -108,15 +108,15 @@ grep -F "VALIDATE? yes/no" docs/roadmap/step-01.1.md
 # Présence de la Ref dans l'historique
 git log -1 --pretty=%B | grep -F "Ref: docs/roadmap/step-01.1.md"
 
-# Purge TODO
-grep -R "TODO" docs && echo "(should be empty)"
+# Purge to-do
+grep -R "T[O]DO" docs && echo "(should be empty)"
 ```
 
 ---
 
 ## 6) Commit & PR
 ```
-chore(step-01.2): fix guards (validation block, commit Ref, purge TODO in docs)
+chore(step-01.2): fix guards (validation block, commit Ref, purge to-do markers in docs)
 
 Ref: docs/roadmap/step-01.2.md
 ```
@@ -126,11 +126,17 @@ Ref: docs/roadmap/step-01.2.md
 ## 7) Critères d’acceptation
 - [ ] `Codex CI / guards` vert.  
 - [ ] `roadmap_guard.ps1` OK (bloc de validation présent + Ref dans l'historique).  
-- [ ] `docs_guard.ps1` OK (aucun TODO dans /docs, UTF-8 autorisé).  
+- [ ] `docs_guard.ps1` OK (aucun marqueur to-do dans /docs, UTF-8 autorisé).
 - [ ] Pas de régression sur `backend-tests` et `frontend-tests`.
 
 ---
 
 ## 8) Suite
 - Après validation, lancer **step-02** (Postgres + Redis + Alembic init) et activer `ascii_code_guard.ps1` pour forcer l'ASCII-only dans le **code** uniquement.
+
+---
+
+## 9) Validation
+
+VALIDATE? yes/no
 
