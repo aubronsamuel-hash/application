@@ -1,0 +1,12 @@
+name: Codex CI / guards
+
+on: [pull_request]
+
+jobs:
+  guards:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run guards
+        shell: pwsh
+        run: ./tools/guards/run_all_guards.ps1

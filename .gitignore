@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Coverage
+.coverage
+coverage/
+frontend/coverage/
+htmlcov/
+coverage.xml
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.pnpm-debug.log
+frontend/.turbo/
+
+# Docker
+*.log
+
+# VSCode
+.vscode/

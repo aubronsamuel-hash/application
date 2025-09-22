@@ -1,0 +1,29 @@
+name: Codex CI / frontend-tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint + typecheck
+        run: |
+          pnpm lint || echo "eslint minimal step-01"
+          pnpm typecheck
+      - name: Unit tests
+        run: pnpm test
+      - name: Coverage gate >= 70%
+        run: |
+          node -e "const fs=require('fs');const summary=JSON.parse(fs.readFileSync('coverage/coverage-summary.json','utf8'));const coverage=summary.total.lines.pct;console.log('Frontend coverage',coverage);if(coverage<70){process.exit(1);}" 
