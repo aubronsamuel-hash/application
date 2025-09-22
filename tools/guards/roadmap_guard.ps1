@@ -16,7 +16,7 @@ if ($files.Count -eq 0) {
 
 foreach ($file in $files) {
     $content = Get-Content -Path $file.FullName -Raw
-    if ($Strict -and $content -notmatch 'VALIDATE\?\s+(yes|no)') {
+    if ($Strict -and $content -notmatch 'VALIDATE\?\s+(yes/no|yes|no)') {
         throw "Missing validation question in $($file.FullName)"
     }
 

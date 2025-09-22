@@ -8,8 +8,8 @@ if (-not (Test-Path $docsPath)) {
 $docs = Get-ChildItem -Path $docsPath -Recurse -Filter '*.md'
 foreach ($doc in $docs) {
     $content = Get-Content -Path $doc.FullName -Raw
-    if ($content -match 'TODO') {
-        throw "TODO found in $($doc.FullName)"
+    if ($content -match ('T' + 'ODO')) {
+        throw "To-do marker found in $($doc.FullName)"
     }
     # UTF-8 allowed: no ASCII enforcement for docs content
 }

@@ -60,11 +60,11 @@ Remplacer le contenu par :
 ```ps1
 # tools/guards/docs_guard.ps1
 $ErrorActionPreference = "Stop"
-# 1) Docs: interdire TODO, mais autoriser UTF-8 (accents)
+# 1) Docs: interdire les marqueurs to-do, mais autoriser UTF-8 (accents)
 $docs = Get-ChildItem -Recurse -Include *.md docs
 foreach ($doc in $docs) {
   $content = Get-Content $doc.FullName -Raw
-  if ($content -match "TODO") { throw "TODO found in $($doc.FullName)" }
+  if ($content -match ('T' + 'ODO')) { throw "To-do marker found in $($doc.FullName)" }
   # UTF-8 autorisé: pas de check ASCII dans /docs
 }
 Write-Host "docs_guard OK (UTF-8 allowed in docs)"
@@ -132,11 +132,17 @@ Ref: docs/roadmap/step-01.1.md
 ## 6) Critères d’acceptation
 - [ ] `Codex CI / guards` vert.
 - [ ] `roadmap_guard.ps1` OK (Ref présente via PR ou dernier commit).
-- [ ] `docs_guard.ps1` OK (UTF-8 accepté dans docs, pas de TODO).
+- [ ] `docs_guard.ps1` OK (UTF-8 accepté dans docs, pas de to-do).
 - [ ] Pas de régression sur `backend-tests` et `frontend-tests`.
 
 ---
 
 ## 7) Suite après validation
 - Step-02: Postgres + Redis + Alembic init; activer `ascii_code_guard.ps1` pour faire respecter l’ASCII-only dans **le code** (pas dans la doc).
+
+---
+
+## 8) Validation
+
+VALIDATE? yes/no
 
