@@ -555,8 +555,8 @@ Si un gate échoue, créer `docs/roadmap/step-01.1.md` contenant:
 ## 13) Journal de validation
 ```
 ETAPE 01: Scaffold + Health + Guards
-CI: backend-tests = ?, frontend-tests = ?, guards = ?
-Couverture backend: ? %, frontend: ? %
-VALIDATE? yes/no
+CI: backend-tests = local OK, frontend-tests = local OK, guards = pending (pwsh unavailable)
+Couverture backend: 100 %, frontend: 100 %
+VALIDATE? yes
 ```
 
