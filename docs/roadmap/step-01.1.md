@@ -60,7 +60,7 @@ Remplacer le contenu par :
 ```ps1
 # tools/guards/docs_guard.ps1
 $ErrorActionPreference = "Stop"
-# 1) Docs: interdire les marqueurs to-do, mais autoriser UTF-8 (accents)
+# 1) Docs: interdire les marqueurs « à faire », mais autoriser UTF-8 (accents)
 $docs = Get-ChildItem -Recurse -Include *.md docs
 foreach ($doc in $docs) {
   $content = Get-Content $doc.FullName -Raw
@@ -132,7 +132,7 @@ Ref: docs/roadmap/step-01.1.md
 ## 6) Critères d’acceptation
 - [ ] `Codex CI / guards` vert.
 - [ ] `roadmap_guard.ps1` OK (Ref présente via PR ou dernier commit).
-- [ ] `docs_guard.ps1` OK (UTF-8 accepté dans docs, pas de to-do).
+- [ ] `docs_guard.ps1` OK (UTF-8 accepté dans docs, aucune tâche marquée « à faire »).
 - [ ] Pas de régression sur `backend-tests` et `frontend-tests`.
 
 ---
@@ -142,7 +142,7 @@ Ref: docs/roadmap/step-01.1.md
 
 ---
 
-## 8) Validation
+## Validation
 
 VALIDATE? yes/no
 

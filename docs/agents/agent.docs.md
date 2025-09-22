@@ -8,7 +8,7 @@ Contient objectifs, périmètre, architecture, conventions, scripts PowerShell W
 
 ## 0) Objectifs clefs
 - **Traçabilité**: 100 % des commits et PR référencent une étape de roadmap (`Ref: docs/roadmap/step-XX.md`).
-- **Discipline documentaire**: pas de to-do flottant, docs toujours synchronisées.
+- **Discipline documentaire**: aucune tâche « à faire » flottante, docs toujours synchronisées.
 - **Roadmap**: 20 étapes principales + sous-étapes correctives si CI échoue.
 - **Interopérabilité**: relier backend, frontend et devops via docs normalisées.
 - **Automatisation**: guards PowerShell exécutés en CI pour bloquer toute incohérence.
@@ -122,7 +122,7 @@ jobs:
 
 ## 6) Checklists PR
 - [ ] Ref présent (`Ref: docs/roadmap/step-XX.md`).
-- [ ] Pas de to-do dans docs.
+- [ ] Aucune tâche « à faire » listée dans les docs.
 - [ ] Pas de caractères non-ASCII.
 - [ ] Roadmap mise à jour si étape validée.
 - [ ] README/CHANGELOG mis à jour si besoin.
@@ -133,7 +133,7 @@ jobs:
 
 ## 7) Runbooks incidents
 - **Guard roadmap KO**: ajouter ligne `Ref: docs/roadmap/step-XX.md` dans commit/PR.
-- **Guard docs KO**: supprimer les marqueurs to-do, corriger l’encodage ASCII.
+- **Guard docs KO**: supprimer les marqueurs « à faire », corriger l’encodage ASCII.
 - **Guard commit KO**: corriger `last_output.json` (JSON valide obligatoire).
 - **CI bloquée**: créer `step-XX.1.md` correctif minimal, relancer pipeline.
 - **Docs désynchronisées**: ajouter sous-step explicatif (step-XX.Y.md) pour corriger.
@@ -161,7 +161,7 @@ Ref: docs/roadmap/step-N.md
 
 ACCEPTANCE
 - Guards docs OK
-- Pas de to-do/ASCII KO
+- Absence de marqueurs « à faire » / ASCII OK
 - Roadmap et prompts a jour
 ```
 
