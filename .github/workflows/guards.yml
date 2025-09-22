@@ -1,12 +1,19 @@
 name: Codex CI / guards
 
-on: [pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   guards:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Run guards
         shell: pwsh
+        env:
+          PR_BODY: ${{ github.event.pull_request.body || '' }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: ./tools/guards/run_all_guards.ps1
