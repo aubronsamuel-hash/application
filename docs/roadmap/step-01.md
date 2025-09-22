@@ -534,7 +534,7 @@ Ref: docs/roadmap/step-01.md
 - [ ] `Codex CI / backend-tests` vert, couverture >= 70 %.  
 - [ ] `Codex CI / frontend-tests` vert, couverture >= 70 %.  
 - [ ] `Codex CI / guards` vert.  
-- [ ] Pas de to-do dans docs, ASCII only.
+- [ ] Aucune tâche « à faire » dans docs, ASCII only.
 - [ ] Lancement local OK (`/api/v1/health` renvoie `{status: ok}`).
 
 Si un gate échoue, créer `docs/roadmap/step-01.1.md` contenant:  

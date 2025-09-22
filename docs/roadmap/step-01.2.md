@@ -1,4 +1,4 @@
-# docs/roadmap/step-01.2.md — Fix guards (validation block + commit Ref + purge to-do markers)
+# docs/roadmap/step-01.2.md — Fix guards (validation block + commit Ref + purge marqueurs « à faire »)
 
 Ref: docs/roadmap/step-01.2.md
 
@@ -25,7 +25,7 @@ To-do marker found in docs/agents/agent.docs.md
 1) **Nom de fichier roadmap 1.1**: le guard lit `docs/roadmap/roadmap_step_1.1.md` au lieu de `docs/roadmap/step-01.1.md`. Il faut **renommer** pour respecter le pattern.
 2) **Validation manquante**: le guard exige la question de validation **exacte** `VALIDATE? yes/no` dans le fichier de l'étape.  
 3) **Commit Ref manquante**: dernier commit sans ligne `Ref:` correspondante.  
-4) **Marqueur to-do dans les docs**: `docs/agents/agent.docs.md` contient ce motif → le guard docs échoue.
+4) **Marqueur « à faire » dans les docs**: `docs/agents/agent.docs.md` contient ce motif → le guard docs échoue.
 
 ---
 
@@ -39,7 +39,7 @@ S’assurer que le fichier mal nommé est corrigé et injecter le bloc attendu.
 git mv docs/roadmap/roadmap_step_1.1.md docs/roadmap/step-01.1.md || true
 
 # Ajouter à la fin de docs/roadmap/step-01.1.md (si absent)
-printf "\n---\n\n## 8) Validation\n\nVALIDATE? yes/no\n" >> docs/roadmap/step-01.1.md
+printf "\n---\n\n## Validation\n\nVALIDATE? yes/no\n" >> docs/roadmap/step-01.1.md
 ```
 
 > Vérifier aussi `docs/roadmap/step-01.md` (step principal) et y ajouter le bloc si manquant :
@@ -71,7 +71,7 @@ if ! git push; then
 fi
 ```
 
-### 3.3 Purger les marqueurs to-do des documents
+### 3.3 Purger les marqueurs « à faire » des documents
 Le guard docs interdit ces marqueurs dans **tous** les `.md` sous `docs/`.
 
 ```
@@ -108,7 +108,7 @@ grep -F "VALIDATE? yes/no" docs/roadmap/step-01.1.md
 # Présence de la Ref dans l'historique
 git log -1 --pretty=%B | grep -F "Ref: docs/roadmap/step-01.1.md"
 
-# Purge to-do
+# Purge des marqueurs « à faire »
 grep -R "T[O]DO" docs && echo "(should be empty)"
 ```
 
@@ -116,7 +116,7 @@ grep -R "T[O]DO" docs && echo "(should be empty)"
 
 ## 6) Commit & PR
 ```
-chore(step-01.2): fix guards (validation block, commit Ref, purge to-do markers in docs)
+chore(step-01.2): fix guards (validation block, commit Ref, purge « à faire » markers in docs)
 
 Ref: docs/roadmap/step-01.2.md
 ```
@@ -126,7 +126,7 @@ Ref: docs/roadmap/step-01.2.md
 ## 7) Critères d’acceptation
 - [ ] `Codex CI / guards` vert.  
 - [ ] `roadmap_guard.ps1` OK (bloc de validation présent + Ref dans l'historique).  
-- [ ] `docs_guard.ps1` OK (aucun marqueur to-do dans /docs, UTF-8 autorisé).
+- [ ] `docs_guard.ps1` OK (aucun marqueur « à faire » dans /docs, UTF-8 autorisé).
 - [ ] Pas de régression sur `backend-tests` et `frontend-tests`.
 
 ---
@@ -136,7 +136,7 @@ Ref: docs/roadmap/step-01.2.md
 
 ---
 
-## 9) Validation
+## Validation
 
 VALIDATE? yes/no
 
