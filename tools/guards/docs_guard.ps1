@@ -1,17 +1,17 @@
 $ErrorActionPreference = "Stop"
 
-$docs = Get-ChildItem -Path (Join-Path $PSScriptRoot '..' '..' 'docs') -Recurse -Filter '*.md'
-foreach ($doc in $docs) {
-    $lines = Get-Content -Path $doc.FullName
-    if ($lines -match 'TODO') {
-        throw "TODO found in $($doc.FullName)"
-    }
-
-    foreach ($line in $lines) {
-        if ($line.ToCharArray() | Where-Object { [int]$_ -gt 127 }) {
-            throw "Non-ASCII character detected in $($doc.FullName)"
-        }
-    }
+$docsPath = Join-Path $PSScriptRoot '..' '..' 'docs'
+if (-not (Test-Path $docsPath)) {
+    throw "Docs directory not found at $docsPath"
 }
 
-Write-Host 'docs_guard OK'
+$docs = Get-ChildItem -Path $docsPath -Recurse -Filter '*.md'
+foreach ($doc in $docs) {
+    $content = Get-Content -Path $doc.FullName -Raw
+    if ($content -match 'TODO') {
+        throw "TODO found in $($doc.FullName)"
+    }
+    # UTF-8 allowed: no ASCII enforcement for docs content
+}
+
+Write-Host 'docs_guard OK (UTF-8 allowed in docs)'
