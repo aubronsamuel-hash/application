@@ -2,13 +2,11 @@ import { render, screen } from '@testing-library/react';
 
 import App from '../App';
 
-describe('App', () => {
-  it('renders the scaffold message', () => {
+describe('App routing', () => {
+  it('renders the login page when not authenticated', () => {
     render(<App />);
 
-    expect(screen.getByText(/monorepo scaffold ready/i)).toBeVisible();
-    expect(
-      screen.getByText(/Backend, frontend and guards are configured/i),
-    ).toBeVisible();
+    expect(screen.getByRole('heading', { name: /connexion/i })).toBeVisible();
+    expect(screen.getByRole('button', { name: /se connecter/i })).toBeEnabled();
   });
 });
